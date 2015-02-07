@@ -48,7 +48,7 @@
     <div class="panel-body bg-light-gray"> 
     <dl class="training-meta">
     <dt> Mode </dt>
-    <dd> Public/Private </dd>
+    <dd> Public/Corporate </dd>
     <dt> Duration </dt>
     <dd> 5 days </dd>
     <dt> Cost </dt>
@@ -57,7 +57,7 @@
    <div>    
    <p> Apache Hadoop developer training is a 5 day course on Apache Hadoop aimed at experienced programmers who are new to big data world. Put your existing programming and problem solving skills to solve problems in big data using hadoop. </p>
 
-   <h3><a href="/training/spark-developer-training" style="color:#167aa3;"><u>More information</u></a></h3>   
+   <h3><a href="{{ "/training/hadoop-developer-training" | prepend: site.baseurl}}" style="color:#167aa3;"><u>More information</u></a></h3>   
    </div>
    </div>
 </div>  
@@ -70,7 +70,7 @@
     <div class="panel-body bg-light-gray"> 
     <dl class="training-meta">
     <dt> Mode </dt>
-    <dd> Public/Private </dd>
+    <dd> Public/Corporate </dd>
     <dt> Duration </dt>
     <dd> 5 days </dd>
     <dt> Cost </dt>
@@ -79,7 +79,7 @@
    <div>    
    <p> Apache Spark developer training is a 5 day course on Apache Spark aimed at experienced programmers who want to explore next generation big data framework. Put your existing skills to solve problems in big data using Apache Spark. </p>
 
-   <h3><a href="/training/hadoop-developer-training" style="color:#167aa3;"><u>More information</u></a></h3>   
+      <h3><a href="{{ "/training/spark-developer-training" | prepend: site.baseurl}}" style="color:#167aa3;"><u>More information</u></a></h3>   
    </div>
    </div>
 </div>  
