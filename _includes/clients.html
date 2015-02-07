@@ -1,11 +1,60 @@
 <!-- Clients Section -->
+<style type="text/css">
+.client-card {
+        box-shadow: rgb(203, 207, 202) 0px 0px 15px 1px;
+        padding: 20px;
+        margin-bottom: 1%;
+        margin-right: 1%;
+        background-color: #ffffff;
+ }
+
+</style>
+
     <section id="about" class="bg-light-gray">
         <div class="container" >
             <div class="row">
-                <div class="col-lg-12 text-center">
+                <div class="col-md-12 text-center">
                     <h2 class="section-heading">Customers</h2>
                     <h3 class="section-subheading text-muted">Some of our happy customers.</h3>
                 </div>
             </div>
+            <div class="row customers">
+            <div class="col-md-3"></div>
+            <a  href="http://genpact.com">
+            <div class="col-md-2 client-card">             
+             <img src="{{ "/img/customers/Genpact.png" | prepend: site.baseurl }}"/>
+            </div>
+            </a>
+            <a href="http://motorola.com">
+            <div class="col-md-2 client-card">            
+             <img src="{{ "/img/customers/motorola-small.jpg" | prepend: site.baseurl }}"/>             
+            </div>
+            </a>
+            <div class="col-md-2 client-card">
+             <a  href="http://itcinfotech.com">
+             <img src="{{ "/img/customers/infotech.png" | prepend: site.baseurl }}"/></a>
+            </div>            
+            <div class="col-md-3"></div>
+
+        </div>
+        <div class="row customers">
+            <div class="col-md-3"></div>
+            <a href="http://citi.com">
+            <div class="col-md-2 client-card">             
+             <img src="{{ "/img/customers/city-small.jpg" | prepend: site.baseurl }}"/>
+            </div>
+            </a>
+            <a href="http://virtusa.com">
+            <div class="col-md-2 client-card">             
+             <img src="{{ "/img/customers/virtusa-small.png" | prepend: site.baseurl }}"/>
+            </div>
+            </a>
+            <a href="http://wipro.com">
+            <div class="col-md-2 client-card">            
+             <img src="{{ "/img/customers/wipro.png" | prepend: site.baseurl }}"/>             
+            </div>
+            </a>
+            <div class="col-md-3"></div>
+
         </div>
     </section>
