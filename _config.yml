@@ -8,8 +8,8 @@ description: "Spark and Hadoop specialists"
 
 # Color settings (hex-codes without the leading hash-tag)
 color:
-  primary: 2DDD6B
-  secondary: fec503  
+  primary: 8FCB94
+  secondary: 42DF4F
   secondary-dark: 333
 
 # Team names, titles and social links
