@@ -16,14 +16,14 @@ color:
 people:
 - name: Madhukara Phatak
   pic: 1
-  position: Lead Designer
+  position: Consultant
   social:
     - title: twitter
-      url: #
-    - title: facebook
-      url: #
-    - title: stack-overflow
-      url: #
+      url: https://twitter.com/madhukaraphatak
+    - title: github
+      url:  https://github.com/phatak-dev
+    - title: linkedin
+      url: https://www.linkedin.com/in/madhukaraphatak
 
 # Social networks usernames (many more available: google-plus, flickr, dribbble, pinterest, instagram, tumblr, linkedin, etc.)
 social:
