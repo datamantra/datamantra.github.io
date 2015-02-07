@@ -8,7 +8,11 @@
 
 
     <!-- Custom CSS & Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
-    <link rel="stylesheet" href="{{ "/style.css" | prepend: site.baseurl }}">
+    
+    <link rel="stylesheet" href="{{ "/style.css" | prepend: site.baseurl }}"> 
+    {% if page.mainpage %}      
+      <link rel="stylesheet" href="{{ "main-page.css" | prepend: site.baseurl }}">
+    {% endif %}
 
     <!-- Custom Fonts -->
     <link rel="stylesheet" href="{{ "/css/font-awesome/css/font-awesome.min.css" | prepend: site.baseurl }}">
