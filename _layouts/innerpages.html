@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+  {% include head.html %}
+
+<body id="page-top" class="index">
+
+{% include navigation.html %}
+<div class="jumbotron head_jumbtron">    
+    <div class="container pagetitle">
+    <h1>{{page.title}}</h1>
+    </div>    
+</div>    
+
+<div class="container">
+  {{ content }}
+</div>
+
+{% include footer.html %}
+{% include modals.html %}
+{% include js.html %}
+</body>
+

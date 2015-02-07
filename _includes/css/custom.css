@@ -19,3 +19,15 @@ transition: background .3s ease-in-out;
 -moz-transition-property: -moz-transform;
 -moz-transition-duration: 1s;
 }
+
+.jumbotron.head_jumbtron {
+  padding-top: 1%;
+  min-height: 400px;
+  background-color: #{{ site.color.secondary-dark}};
+}
+
+.container.pagetitle{
+  margin-top: 7%;
+  color: #fff;
+  text-transform: normal;
+} 
