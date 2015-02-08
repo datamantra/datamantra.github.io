@@ -2,41 +2,16 @@
  layout : innerpages
  title  : Apache Hadoop Developer Training
 ---
-
 <style type="text/css">
-  p,li{
+  li{
   	font-size: 16px;
-  }	
-  li {
   	line-height: 2;
-  }
-
-  .panel {
-  	margin-top: 21px;
-  	border : 1px solid transparent;
-  	border-radius: 2;
-  	border-color: gray;
-  	background-color: #ffffff;
-
-    border-bottom: solid;
-    border-bottom-color: gray;
-  	padding-bottom: 5%;    
-    margin-bottom: 5%;
-  }
-
-  .panel-heading {
-    background: #f5f5f5;    
-    color : #333333;
-    font-size : 20px;
-    border-bottom: 1px solid transparent;
-  }
-
+  }	  
   dt,dd {
     float: left;
     margin-right: 1ex;
     font-size: 20px;
   }
-
   dt {
     font-weight: normal;
     color: gray;
@@ -49,7 +24,6 @@
   dl {
     margin-bottom: 15%;
   }
-
 </style>  
 
 <div class="row">
