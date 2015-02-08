@@ -3,20 +3,21 @@ layout : innerpages
 title  : Company
 ---
 <style type="text/css">
-  dt,dd{
-    
-    font-size: 25px;
-  }  
-   
-  p {
-  	font-size: 16px;
-  }
+	dt,dd{
+
+		font-size: 20px;
+		font-weight: normal;
+	}  
+
+	p {
+		font-size: 16px;
+	}
 
 </style>
 
 <div class="row" style="padding-bottom:10%;"> 
 	<div class="col-md-4">
-	    <h2 >Contact Us</h2>		
+		<h2 >Contact us</h2>		
 		<dl class="dl-horizontal">
 			<dt> Email </dt>
 			<dd><a href="mailto:hello@datamantra.io">   hello@datamantra.io</a></dd>     
@@ -26,8 +27,18 @@ title  : Company
 			<dd>(+91)9686409878</dd>  
 		</dl>                
 		<dl class="dl-horizontal">             
-			<dt> twitter </dt>
+			<dt> Twitter </dt>
 			<dd><a href="http://twitter.com/datamantra">@datamantra</a></dd>  
+		</dl> 
+		<dl class="dl-horizontal">             
+			<dt> US Office </dt>                   
+			<dd>16308 NE 46th Street</dd>
+			<dd>Redmond, WA-98052</dd>
+		</dl> 
+		<dl class="dl-horizontal">             
+			<dt> India Office </dt>                   
+			<dd> 3rd Cross, 1st Main</dd>
+			<dd> Vinayaka Nagar , Bangalore - 560017</dd>
 		</dl> 
 		<dl class="dl-horizontal visible-xs">             
 			<dt> Address </dt>
@@ -35,22 +46,37 @@ title  : Company
 		</dl>                                  
 	</div>
 	<div class="col-md-2"></div>
-	<div class="col-md-6 hidden-xs">		
-			<h2 style="margin-bottom : 5%;"> Find us </h2>
-		</dl>   
-		<a class="map" target="_new" href="http://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=6+Gloucester+Road,+Brighton,+BN1+4EW&amp;aq=&amp;sll=50.827034,-0.136393&amp;sspn=0.012162,0.013518&amp;g=6+Gloucester+Road,+Brighton,+BN1+4EW&amp;ie=UTF8&amp;hq=&amp;hnear=6+Gloucester+Road,+Brighton,+BN1+4EW&amp;ll=50.827034,-0.136393&amp;spn=0.011722,0.027788&amp;t=m&amp;z=14">
-			<img src="http://maps.googleapis.com/maps/api/staticmap?center=50.827034,-0.136393&amp;size=410x410&amp;zoom=14&amp;markers=color:red%7C%7C50.827034,-0.136393&amp;sensor=false">
-		</a>
-	</div>    
+
+
+	<div class="col-md-6 hidden-xs">
+	    <h2 >Find us</h2>		
+		<div style="padding-bottom:10%;">
+			<dl class="dl-horizontal;margin-bottom : 10%;">
+				<dt>US</dt>
+			</dl>   
+			<a class="map" target="_new" href="https://www.google.co.in/maps/place/16308+NE+46th+St,+Redmond,+WA+98052,+USA/@47.651137,-122.123369,17z/data=!4m2!3m1!1s0x54906d640eb843c1:0xa47e490359de1c04?hl=en">
+				<img src="http://maps.google.com/maps/api/staticmap?center=47.6511370,-122.1233690&amp;zoom=14&amp;size=400x200&amp;maptype=roadmap&amp;sensor=false&amp;language=&amp;markers=color:red|label:none|47.6511370,-122.1233690">
+			</a>
+		</div>
+		<div>
+			<dl class="dl-horizontal;margin-bottom : 10%;">
+				<dt>India</dt>
+			</dl>   
+			<a class="map" target="_new" href="https://www.google.co.in/maps/place/Vinayak+Nagar+B-Block,+Vinayaka+Nagar,+Murugeshpalya,+Bengaluru,+Karnataka+560017/@12.9536462,77.6601229,17z/data=!3m1!4b1!4m2!3m1!1s0x3bae13f159ea4321:0xf11370cdb8a0595e?hl=en">
+				<img src="http://maps.google.com/maps/api/staticmap?center=12.9536462,77.6601229&amp;zoom=14&amp;size=400x200&amp;maptype=roadmap&amp;sensor=false&amp;language=&amp;markers=color:red|label:none|12.9536462,77.6601229">
+			</a>
+		</div>
+	</div>
 </div>   
+
 
 <div class="row" style="padding-bottom:10%;">
 	<div class="col-md-12">
-     <h2> About DataMantra </h2>
-     <p> DataMantra is a provider of professional services relating to big data technologies. Centered in US and India, we provide full range of services including consulting on architecture and design, training for Spark,Hadoop and ecosystem projects. 
-    </p>
+		<h2> About DataMantra </h2>
+		<p> DataMantra is a provider of professional services relating to big data technologies. Centered in US and India, we provide full range of services including consulting on architecture and design, training for Spark,Hadoop and ecosystem projects. 
+		</p>
 
-    <p> Company is formed to meet growing needs of expertise in Spark and big data area in general. All our consulting partners are in big data are from many years which gives us unmatched depth compared to any other consulting service.</p>
+		<p> Company is formed to meet growing needs of expertise in Spark and big data area in general. All our consulting partners are in big data are from many years which gives us unmatched depth compared to any other consulting service.</p>
 
 	</div>
 </div>
