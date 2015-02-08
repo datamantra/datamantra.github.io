@@ -12,6 +12,7 @@
   }
 
   .section-info h2{
+    padding-top: 5%;
   	padding-bottom: 3%;
   }
 
@@ -22,6 +23,25 @@
   .section-icon {
 
   	padding-top: 5%;
+  }
+  .panel {
+    margin-top: 21px;
+    border : 1px solid transparent;
+    border-radius: 2;
+    border-color: gray;
+    background-color: #ffffff;
+
+    border-bottom: solid;
+    border-bottom-color: gray;
+    padding-bottom: 5%;    
+    margin-bottom: 5%;
+  }
+
+  .panel-heading {
+    background: #f5f5f5;    
+    color : #333333;
+    font-size : 20px;
+    border-bottom: 1px solid transparent;
   }
 
 
@@ -38,11 +58,40 @@
  No matter where you are in journey, we can help. We offer guidance, assurance, mentoring, support and hands-on development when you need it.
  </p>
 </div>
+<div class="col-md-4">
+  <div class="panel panel-deafualt">
+  <div class="panel-heading">Contact us</div>
+  <div class="panel-body">
+  <div>
+   <p> Get in touch to work with us. Tell us about your project and see how we can help.</p>
+  </div>
+  <div style="margin-bottom:3%;">
+   <a href="mailto:hello@datamantra.io" class="btn btn-block btn-primary">
+    <i class="fa fa-envelope"></i>
+    <span style="text-transform:none;">hello@datamantra.io</span>
+   </a>
+  </div>
+  <div >
+   <a href="tel:+919686409878" class="btn btn-block btn-primary">
+    <i class="fa fa-phone"></i>
+    <span>(+91)9686409878</span>
+   </a>
+  </div>
+  
+</div>
+</div>
 </div>
 
 <!-- Sections -->
 
-<div class="row" style="margin-top:10%;">
+<div class="row" style="margin-top:20%;">
+<div class="col-md-8" style="margin-top:10px;">
+ <h2>Where are you in your project?</h2>
+</div>
+</div> 
+
+<div class="row">
+  
   <div class="col-md-1"></div>
   <div class="col-md-3 section-icon">
     <span class="fa-stack fa-5x" style="font-size:10em;">
