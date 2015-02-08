@@ -4,18 +4,13 @@ title  : Company
 ---
 <style type="text/css">
 	dt,dd{
-
 		font-size: 20px;
 		font-weight: normal;
-	}  
-
-	p {
-		font-size: 16px;
-	}
-
+	}  	
 </style>
 
 <div class="row" style="padding-bottom:10%;"> 
+    <!-- Left column -->
 	<div class="col-md-4">
 		<h2 >Contact us</h2>		
 		<dl class="dl-horizontal">
@@ -40,12 +35,13 @@ title  : Company
 			<dd> 3rd Cross, 1st Main</dd>
 			<dd> Vinayaka Nagar , Bangalore - 560017</dd>
 		</dl> 		
-	</div>
+	</div> <!-- End of Left column -->
 	<div class="col-md-2"></div>
 
-
+    <!-- Right column -->
 	<div class="col-md-6 hidden-xs">
-	    <h2 >Find us</h2>		
+		<h2 >Find us</h2>	
+		<!-- US map -->	
 		<div style="padding-bottom:10%;">
 			<dl class="dl-horizontal;margin-bottom : 10%;">
 				<dt>US</dt>
@@ -53,7 +49,8 @@ title  : Company
 			<a class="map" target="_new" href="https://www.google.co.in/maps/place/16308+NE+46th+St,+Redmond,+WA+98052,+USA/@47.651137,-122.123369,17z/data=!4m2!3m1!1s0x54906d640eb843c1:0xa47e490359de1c04?hl=en">
 				<img src="http://maps.google.com/maps/api/staticmap?center=47.6511370,-122.1233690&amp;zoom=14&amp;size=400x200&amp;maptype=roadmap&amp;sensor=false&amp;language=&amp;markers=color:red|label:none|47.6511370,-122.1233690">
 			</a>
-		</div>
+		</div> <!-- End of US map -->	
+		<!-- India map -->	
 		<div>
 			<dl class="dl-horizontal;margin-bottom : 10%;">
 				<dt>India</dt>
@@ -61,9 +58,9 @@ title  : Company
 			<a class="map" target="_new" href="https://www.google.co.in/maps/place/Vinayak+Nagar+B-Block,+Vinayaka+Nagar,+Murugeshpalya,+Bengaluru,+Karnataka+560017/@12.9536462,77.6601229,17z/data=!3m1!4b1!4m2!3m1!1s0x3bae13f159ea4321:0xf11370cdb8a0595e?hl=en">
 				<img src="http://maps.google.com/maps/api/staticmap?center=12.9536462,77.6601229&amp;zoom=14&amp;size=400x200&amp;maptype=roadmap&amp;sensor=false&amp;language=&amp;markers=color:red|label:none|12.9536462,77.6601229">
 			</a>
-		</div>
-	</div>
-</div>   
+		</div> <!-- End of India map -->	
+	</div> <!-- End of right column -->	
+</div>   <!-- End of row -->	
 
 
 <div class="row" style="padding-bottom:10%;">

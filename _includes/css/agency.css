@@ -19,8 +19,7 @@ body {
     color: #{{ site.color.primary }};
 }
 
-p {
-    font-size: 14px;
+p {    
     line-height: 1.75;
 }
 

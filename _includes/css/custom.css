@@ -78,3 +78,9 @@ footer {
     color: #fff;    
     font-size: 25px;
 } 
+
+/* inside page p */
+
+p {
+  font-size: 16px;
+}
