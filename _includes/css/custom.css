@@ -71,3 +71,10 @@ footer {
      margin-bottom: 5%;
   } 
 }
+
+/* contact section on main page */
+
+#contact dt, #contact dd{
+    color: #fff;    
+    font-size: 25px;
+} 
