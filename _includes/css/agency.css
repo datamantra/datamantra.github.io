@@ -10,6 +10,7 @@ body {
     color: #{{ site.color.secondary-dark }};
 }
 
+
 .text-muted {
     color: #777;
 }
@@ -262,7 +263,13 @@ header {
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
+
     -o-background-size: cover;
+}
+
+@media (max-width:768px) {
+       
+  
 }
 
 header .intro-text {
