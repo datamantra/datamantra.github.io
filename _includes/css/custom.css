@@ -26,6 +26,15 @@ transition: background .3s ease-in-out;
   background-color: #{{ site.color.secondary-dark}};
 }
 
+
+@media(max-width:768px) {
+ .jumbotron.head_jumbtron {
+  padding-top: 10%;
+  min-height: 100px;
+  background-color: #{{ site.color.secondary-dark}}; 
+  }
+}	
+
 .container.pagetitle{
   margin-top: 7%;
   color: #fff;
