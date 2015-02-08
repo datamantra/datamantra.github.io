@@ -22,7 +22,7 @@ transition: background .3s ease-in-out;
 
 .jumbotron.head_jumbtron {
   padding-top: 1%;
-  min-height: 200px;
+  min-height: 300px;
   background-color: #{{ site.color.secondary-dark}};
 }
 

@@ -24,6 +24,13 @@
 
   	padding-top: 5%;
   }
+
+  @media (max-width: 767px) {
+    .section-icon {
+        display: none;
+    }
+  }   
+  
   .panel {
     margin-top: 21px;
     border : 1px solid transparent;
