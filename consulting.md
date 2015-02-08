@@ -5,7 +5,27 @@
 <style type="text/css">
   li{
   	font-size: 16px;
-  }	  
+  }	
+
+.panel {
+    margin-top: 21px;
+    border : 1px solid transparent;
+    border-radius: 2;
+    border-color: gray;
+    background-color: #ffffff;
+
+    border-bottom: solid;
+    border-bottom-color: gray;
+    padding-bottom: 5%;    
+    margin-bottom: 5%;
+  }
+
+  .panel-heading {
+    background: #f5f5f5;    
+    color : #333333;
+    font-size : 20px;
+    border-bottom: 1px solid transparent;
+  }  
     
 </style>
 
