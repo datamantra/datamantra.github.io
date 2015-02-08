@@ -54,3 +54,20 @@ transition: background .3s ease-in-out;
 footer {
  background-color : #1B1B1B; 	
 }
+
+/* customer section */
+
+.client-card {
+        box-shadow: rgb(203, 207, 202) 0px 0px 15px 1px;
+        padding: 20px;
+        margin-bottom: 1%;
+        margin-right: 1%;
+        background-color: #ffffff;
+ }
+
+@media(max-width: 762px) {
+  .client-card {
+     padding: 10px;
+     margin-bottom: 5%;
+  } 
+}
