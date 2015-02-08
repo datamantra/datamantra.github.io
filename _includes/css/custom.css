@@ -1,3 +1,9 @@
+/*
+ Custom css. Used to add on to agency.css
+*/
+
+
+/* Circular button on home page */
 .btn-circle {
 width: 70px;
 height: 70px;
@@ -20,6 +26,8 @@ transition: background .3s ease-in-out;
 -moz-transition-duration: 1s;
 }
 
+/* Jumbtron on each page */
+
 .jumbotron.head_jumbtron {
   padding-top: 1%;
   min-height: 300px;
@@ -35,11 +43,14 @@ transition: background .3s ease-in-out;
   }
 }	
 
+/* Jumbtron title */
 .container.pagetitle{
   margin-top: 7%;
   color: #fff;
   text-transform: normal;
 } 
+
+/* footer */
 footer {
  background-color : #1B1B1B; 	
 }

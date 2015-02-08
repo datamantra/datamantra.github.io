@@ -1,14 +1,16 @@
 <!-- Services Section -->
 <section id="services">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2 class="section-heading">Services</h2>
-                    <h3 class="section-subheading text-muted"> Big data consulting and trainings.</h3>
-                </div>
+    <div class="container">
+        <!-- Heading -->
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading">Services</h2>
+                <h3 class="section-subheading text-muted"> Big data consulting and trainings.</h3>
             </div>
-            <div class="row text-center">        
-                <a href="{{ "consulting" | prepend: site.baseurl}}">        
+        </div>
+        <!-- Consulting section -->
+        <div class="row text-center">        
+            <a href="{{ "consulting" | prepend: site.baseurl}}">        
                 <div class="col-md-4">                    
                     <span class="fa-stack fa-4x">                        
                         <i class="fa fa-circle fa-stack-2x text-primary"></i>
@@ -17,8 +19,10 @@
                     <h4 class="service-heading">Consulting</h4>
                     <p class="text-muted">Big data consulting in US and Bangalore. Consulting available for Spark, Hadoop and ecosystem projects.</p>
                 </div> 
-                </a>
-                <a href="{{ "training" | prepend: site.baseurl}}">
+            </a>
+
+            <!-- Training section -->
+            <a href="{{ "training" | prepend: site.baseurl}}">
                 <div class="col-md-4">                    
                     <span class="fa-stack fa-4x">
                         <i class="fa fa-circle fa-stack-2x text-primary"></i>
@@ -27,8 +31,10 @@
                     <h4 class="service-heading">Training</h4>
                     <p class="text-muted">Big data training in US and Bangalore. Training available for Spark, Hadoop and ecosystem projects.</p>
                 </div> 
-                </a>
-                <a href="https://www.github.com/phatak-dev">
+            </a>
+
+            <!-- Open source section -->
+            <a href="https://www.github.com/phatak-dev">
                 <div class="col-md-4">                    
                     <span class="fa-stack fa-4x">
                         <i class="fa fa-circle fa-stack-2x text-primary"></i>
@@ -38,7 +44,9 @@
                     <p class="text-muted">High quality Hadoop and Spark libraries. All available under Apache license in github.
                     </p>
                 </div>
-                </a>
-            </div>
-        </div>
-    </section>
+            </a> <!-- end of training section -->
+
+        </div> <!-- end of row  -->
+
+    </div> <!-- end of container -->
+</section>
