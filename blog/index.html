@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Apache Hadoop Developer Training</title>
+    <title>DataMantra Blog</title>
     <meta name="viewport" content="width=device-width">
     <meta name="description" content="Spark and Hadoop specialists">
-    <link rel="canonical" href="www.datamantra.iohttp://phatak_dev.bitbucket.org//training/hadoop-developer-training/">
+    <link rel="canonical" href="www.datamantra.iohttp://phatak_dev.bitbucket.org//blog/">
 
 
     <!-- Custom CSS & Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
@@ -31,10 +31,9 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-
+  
 
 <body>
-
 <style type="text/css">
    .navbar .divider-vertical {
     height: 30px;
@@ -119,146 +118,118 @@
 </nav>
 
 
+
 <div class="jumbotron head_jumbtron">    
     <div class="container pagetitle">
-    <h1>Apache Hadoop Developer Training</h1>
+    <a href="/blog" style="color:inherit;"><h1>DataMantra Blog</h1></a>
     </div>    
 </div>    
 
-<div class="container content-row">
-  <style type="text/css">
-  .content-row li{  	
-  	line-height: 2;
-  }	  
-  dt,dd {
-    float: left;
-    margin-right: 1ex;
-    font-size: 20px;
-  }
-  dt {
-    font-weight: normal;
-    color: gray;
-  }
+<div class="container content-row ">
+  <!-- Index page for blog -->
+<div class="home col-md-8" style="padding-bottom:5%;">	
+	<ul class="posts list-unstyled">
+		
+		<li style="padding-bottom:5%;">           
+			<span class="post-date">Feb 7, 2015</span>             
+			<div>
+				<a class="post-link" href="http://phatak_dev.bitbucket.org//blog/2015/02/07/pipe-in-spark/">Pipe in Spark
+				</a> 
+				<p> <p>Pipe operator in Spark, allows developer to process RDD data using external applications. Sometimes in data analysis, we need to use an external library which may not be written using Java/Scala. Ex: Fortran math libraries. In that case, spark&#8217;s pipe operator allows us to send the RDD data to the external application.</p>
 
-  dd {
-    font-weight: bold;    
-  }
+ </p>
+			</div>                                  
+		</li>        
+		
+		<li style="padding-bottom:5%;">           
+			<span class="post-date">Dec 15, 2014</span>             
+			<div>
+				<a class="post-link" href="http://phatak_dev.bitbucket.org//blog/2014/12/15/implementing-shuffle-in-mesos/">Implementing shuffle in Mesos
+				</a> 
+				<p> <p>Many times in a distributed systems, need of shuffle arises. Map/Reduce implementations like Hadoop,Spark heavily depend upon effective shuffling to do the distributed processing. So whenever we build a new distributed system from scratch, it will be nice to have the ability to do shuffle.</p>
 
-  dl {
-    margin-bottom: 15%;
-  }
-</style>  
+ </p>
+			</div>                                  
+		</li>        
+		
+		<li style="padding-bottom:5%;">           
+			<span class="post-date">Dec 15, 2014</span>             
+			<div>
+				<a class="post-link" href="http://phatak_dev.bitbucket.org//blog/2014/12/15/distributing-third-party-libraries-in-mesos/">Distributing third party libraries in Mesos
+				</a> 
+				<p> <p>Every distributed application needs an effective way of distributing third party libraries. Hadoop uses DistributedCache and Spark uses similar approaches. When you are building your own distributed system, you also have to build a effective mechanism to do the distribution. </p>
 
-<div class="row">
-<div class="col-md-8">
-<!-- Overview -->
-<h2>Overview</h2>
-<p> Hadoop developer training is a 5 day course on Apache Hadoop aimed at experienced programmers who are new to big data world. Put your existing programming and problem solving skills to solve problems in big data using hadoop. </p>
-<p> Course takes a practitioner approach to content. It will teach you from basic syntax and semantics to advanced problem solving using hadoop. We focus heavily on hands on to make sure each and every concept is clear to you.  We stress on building distributed mind set from day one. Each section has a practical focus, mixing presentation with in-depth hands-on labs and exercises. </p>
-<p> If you are experienced developer who want to take first steps in Hadoop, this course is right for you. </p>
-<!-- End of over view -->
-<h2> Prerequisites </h2>
-<ul>
- <li> Programming experience in Java. </li>
- <li> Basic familiarity with Unix/Linux is highly recommended </li> 
- <li> Prior knowledge about Hadoop is not required. </li>
-</ul>
-<!-- End of Prerequisites-->
-<h2> Course content </h2>
-<ul> 
- <li>Introduction
- <ul>
-   <li> Why Bigdata?</li>
-   <li> Introduction to Hadoop</li>
-   <li> Hadoop Architecture</li>
-   <li> Introduction to Hadoop 2.0</li>
-   <li> Introduction to Map/Reduce </li>
- </ul>
- </li>
-  <li>HDFS
- <ul>
-   <li> Hadoop installation </li>
-   <li>Introduction to HDFS</li>
-   <li>HDFS interfaces</li>
-   <li>HDFS ETL</li>
-   <li>HDFS api java examples</li>   
- </ul>
- </li>
- <li>Map/Reduce
- <ul>
-   <li>Mapper and Reduce API</li>
-   <li>Configuration API</li>
-   <li>Custom writables</li>
-   <li>Chain mapper and chain reducer</li>
-   <li> Combiners</li>
-   <li> Reduce side Join</li>
-   <li> Distributed Cache</li>
-   <li> Map side join</li>
-   <li> Job dependency management</li>
-   <li> Sequence files</li>
-   <li> Custom input format</li>
- </ul> 
- <p>All the above api's with real world example code.</p>
- </li>
-  <li>Hive
- <ul>  
-   <li>Introduction to Hive</li>
-   <li>Hive installation</li>
-   <li>Hive query language Hands on</li>
-   <li>Partitions</li>
-   <li>Bucketing</li>
-   <li>Indexing</li>
-   <li>UDF / UDAF </li>
-   <li>Hive Serde</li>
-   <li>Hive bucketing</li>
- </ul> 
- </li>
-  <li>Pig
- <ul>  
-   <li>Introduction to Pig</li>
-   <li>Pig installation</li>
-   <li>Pig latin Hands on</li>   
-   <li>Pig UDF</li>   
- </ul>
- </li>
- </ul>
- <!-- End of course content-->
- </div> <!-- end of left row -->
-<div class="col-md-4">
-  <div class="panel panel-deafualt">
-  <div class="panel-heading">Course Summary</div>
-  <div class="panel-body">
-  	<dl> 
-  	 <dt> Length </dt>
-  	 <dd> 5 days </dd>
-   </dl>  	 
-  <div>
-   <h4><b>Audience</b></h4>
-   <p> Developers who are looking to understand Big data and hadoop technologies.</p>
-  </div>
-  <div>
-   <h4><b>Frameworks covered</b></h4>
-   <ul>
-     <li> Map/Reduce </li>
-     <li> HDFS </li>
-     <li> Hive </li>
-     <li> Pig </li>
-     <li> Others on demand </li>
-   </ul>    
-  </div>  
-  </div> <!-- End of panel body -->
-  </div> <!-- End of course summary panel body -->  
-  <div class="panel">
-  <div class="panel-heading"> Public and Corporate courses</div>
-  <div class="panel-body">  	
-  <div>
-  <p> We run public courses every few months. Public courses are open to all. Get in touch to find out when the next course is scheduled.</p>
-  <p>Corporate courses are run exclusively for your team. You have complete control over the syllabus and schedule. Let us know your custom requirements on the booking form and we'll customize the material appropriately.</p>
-  </div>
-  </div>
-  </div> <!-- End of public/private course panel -->  
-</div> <!-- End of right column -->
-</div> <!-- End of row -->
+ </p>
+			</div>                                  
+		</li>        
+		
+	</ul>
+
+<!-- Pagination -->
+
+<div class="pagination col-xs-12">
+	
+	<!-- Disabled button -->
+	<a href="http://phatak_dev.bitbucket.org//blog/" class="btn btn-primary previous disabled"><i class="fa fa-angle-left"></i> New Posts</a>
+	
+	
+	<!-- Next button -->
+	
+	<a class="btn btn-primary" href="http://phatak_dev.bitbucket.org//blog/page2" class="next ">Old posts <i class="fa fa-angle-right" style="font-size: 2 em;"></i></a>
+	
+</div>
+
+
+
+</div>
+<div class="col-md-1"></div>
+<div class="col-md-3" style="margin-top:3%;">
+    <h2> Archives </h2>
+  <h4 style="margin-top:10%;">This year's posts</h4>
+  
+    
+      <ul class="list-unstyled">
+    
+      <li style="margin-top:5%;"><a href="/blog/2015/02/07/pipe-in-spark/" style="color:#25aae1;">Pipe in Spark</a></li>
+  
+    
+      
+      
+      
+        </ul>
+        <h3>2014</h3>
+        <ul class="list-unstyled">
+      
+    
+      <li style="margin-top:5%;"><a href="/blog/2014/12/15/implementing-shuffle-in-mesos/" style="color:#25aae1;">Implementing shuffle in Mesos</a></li>
+  
+    
+      
+      
+      
+    
+      <li style="margin-top:5%;"><a href="/blog/2014/12/15/distributing-third-party-libraries-in-mesos/" style="color:#25aae1;">Distributing third party libraries in Mesos</a></li>
+  
+    
+      
+      
+      
+    
+      <li style="margin-top:5%;"><a href="/blog/2014/12/03/sizeof-operator-java-scala/" style="color:#25aae1;">sizeof operator for Java&#47;Scala</a></li>
+  
+    
+      
+      
+      
+    
+      <li style="margin-top:5%;"><a href="/blog/2014/11/18/kryo-disk-serialization-in-spark/" style="color:#25aae1;">Kryo disk serialization in Spark</a></li>
+  
+  </ul>
+
+
+</div>
+
+
 
 
 </div>

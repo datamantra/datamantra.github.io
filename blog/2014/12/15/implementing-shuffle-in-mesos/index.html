@@ -1,0 +1,483 @@
+<!-- This layout is used for inner pages -->
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Implementing shuffle in Mesos</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Spark and Hadoop specialists">
+    <link rel="canonical" href="www.datamantra.iohttp://phatak_dev.bitbucket.org//blog/2014/12/15/implementing-shuffle-in-mesos/">
+
+
+    <!-- Custom CSS & Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
+    
+    <link rel="stylesheet" href="http://phatak_dev.bitbucket.org//style.css"> 
+    
+
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" href="http://phatak_dev.bitbucket.org//css/font-awesome/css/font-awesome.min.css">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+  
+
+<body>
+<style type="text/css">
+   .navbar .divider-vertical {
+    height: 30px;
+    margin-top: 15px;
+    margin-left: 5px;
+    margin-right: 5px;
+    background:rgba(255, 255, 255, 0.2);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+
+
+@media (max-width: 767px) {
+    .navbar-collapse .nav > .divider-vertical {
+        display: none;
+    }
+
+    span.visible-xs {
+        display: inline !important;
+    }
+
+}   
+
+.social-button {
+  font-size: 1.2em;
+}
+
+
+
+</style>
+
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://phatak_dev.bitbucket.org/">Data Mantra</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="hidden">
+                    <a href="#page-top"></a>
+                </li>
+                <li>
+                    <a   href="http://phatak_dev.bitbucket.org//consulting">Consulting</a>
+                </li>
+                <li>
+                    <a href="http://phatak_dev.bitbucket.org//training">Training</a>
+                </li>
+                <li>
+                    <a href="http://phatak_dev.bitbucket.org//blog">Blog</a>
+                </li>
+                <li>
+                    <a href="http://phatak_dev.bitbucket.org//company">Company</a>
+                </li>     
+
+                <li class="divider-vertical"></li>                                        
+                <li class="social-button"><a href="http://www.twitter.com/datamantra"><i class="fa fa-twitter"></i>
+                <span class="visible-xs" > Twitter </span>
+                </a>
+                </li>                    
+                <li class="social-button"><a href="mailto:hello@datamantra.io"><i class="fa fa-envelope"></i>
+                <span class="visible-xs" > Email </span>
+                </a>
+                </li>                    
+                <li class="social-button"><a href="tel:+919686409878"><i class="fa fa-phone"></i>
+                <span class="visible-xs"> Phone </span></a>
+                </li>                    
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+
+
+
+<div class="jumbotron head_jumbtron">    
+    <div class="container pagetitle">
+    <a href="/blog" style="color:inherit;"><h1>DataMantra Blog</h1></a>
+    </div>    
+</div>    
+
+<div class="container content-row ">
+  <div class="post col-md-8">
+ <header class="post-header">
+  <h1>Implementing shuffle in Mesos</h1>
+  <p class="meta">Posted Dec 15, 2014 </p>  
+</header> 
+
+<div>
+<article class="post-content">
+  <p>Many times in a distributed systems, need of shuffle arises. Map/Reduce implementations like Hadoop,Spark heavily depend upon effective shuffling to do the distributed processing. So whenever we build a new distributed system from scratch, it will be nice to have the ability to do shuffle.</p>
+
+<p>This post talks how to implement shuffle on mesos.</p>
+
+<p>This post extends the custom scala executor discussed here <a href="/custom-mesos-executor-scala/">post</a>. If you are new to mesos please go through that post before continuing.</p>
+
+<p>tl;dr Access the complete code on <a href="https://github.com/phatak-dev/blog/tree/master/code/MesosShuffle">github</a>.</p>
+
+<h2 id="what-is-shuffle">What is shuffle?</h2>
+<p>Shuffle is an operation where result produced at one machine is moved to another machine over the network, in order to combine the results. The operations like reduceByKey, join in Hadoop or Spark uses shuffling.</p>
+
+<h2 id="implementing-shuffle-in-mesos">Implementing Shuffle in Mesos</h2>
+
+<p>The following steps are one of the ways to implement shuffle in mesos.This shuffle supports implementing operations like reduce,reduceByKey,groupByKey etc. The following implementation is inspired by the spark implementation.</p>
+
+<h2 id="shuffle-interface">Shuffle interface</h2>
+
+<div class="highlight"><pre><code class="scala"><span class="k">trait</span> <span class="nc">Shuffle</span><span class="o">[</span><span class="kt">K</span>,<span class="kt">V</span>,<span class="kt">C</span><span class="o">]{</span>
+  <span class="k">def</span> <span class="n">compute</span><span class="o">(</span><span class="n">list</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">List</span><span class="o">[(</span><span class="kt">K</span>, <span class="kt">V</span><span class="o">)]],</span>
+  <span class="n">createCombiner</span><span class="k">:</span> <span class="kt">V</span> <span class="o">=&gt;</span> <span class="n">C</span><span class="o">,</span>
+  <span class="n">mergeValue</span><span class="k">:</span> <span class="o">(</span><span class="kt">C</span><span class="o">,</span> <span class="kt">V</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">C</span><span class="o">,</span>
+  <span class="n">mergeCombiners</span><span class="k">:</span> <span class="o">(</span><span class="kt">C</span><span class="o">,</span> <span class="kt">C</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">C</span><span class="o">,</span>
+  <span class="n">numberOfOutputSplit</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span>
+  <span class="n">scheduler</span><span class="k">:</span> <span class="kt">TaskScheduler</span><span class="o">)</span><span class="k">:</span><span class="kt">List</span><span class="o">[(</span><span class="kt">K</span>,<span class="kt">C</span><span class="o">)]</span>
+<span class="o">}</span></code></pre></div>
+
+<p>The trait has three types  </p>
+
+<ul>
+  <li>
+    <p>K - key type    </p>
+  </li>
+  <li>
+    <p>V - value type   </p>
+  </li>
+  <li>
+    <p>C - combined value type (Final result type)</p>
+  </li>
+</ul>
+
+<p>compute is an abstract method which takes the following functions</p>
+
+<ul>
+  <li>
+    <p>createCombiner - As name suggests, its a function creates combiner for each partition. It will start with initial value provided by v parameter.</p>
+  </li>
+  <li>
+    <p>mergeValue - for every value in partition, mergeValue will be used to update the combine</p>
+  </li>
+  <li>
+    <p>mergeCombiners - its a reduce side job of merging two different combiners</p>
+  </li>
+</ul>
+
+<p>numberOfOutputSplit allows us to control number of reduce tasks and final parameter scheduler allow us as to access the context.</p>
+
+<h2 id="local-file-based-shuffle-implementation">Local file based shuffle implementation</h2>
+
+<p>The following code explains the implementation of shuffle using local file system and http server.</p>
+
+<h3 id="step-1--implement-shuffle-trait">Step 1 : Implement Shuffle trait</h3>
+
+<div class="highlight"><pre><code class="scala"><span class="k">class</span> <span class="nc">LocalShuffle</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">V</span>, <span class="kt">C</span><span class="o">]</span> <span class="nc">extends</span> <span class="nc">Shuffle</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">V</span>, <span class="kt">C</span><span class="o">]</span> <span class="k">with</span> <span class="nc">Serializable</span> <span class="o">{</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="n">compute</span><span class="o">(</span><span class="n">rows</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">List</span><span class="o">[(</span><span class="kt">K</span>, <span class="kt">V</span><span class="o">)]],</span> <span class="n">createCombiner</span><span class="k">:</span> <span class="o">(</span><span class="kt">V</span><span class="o">)</span> <span class="o">=&gt;</span> <span class="n">C</span><span class="o">,</span> <span class="n">mergeValue</span><span class="k">:</span> <span class="o">(</span><span class="kt">C</span><span class="o">,</span> <span class="kt">V</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">C</span><span class="o">,</span> <span class="n">mergeCombiners</span><span class="k">:</span> <span class="o">(</span><span class="kt">C</span><span class="o">,</span> <span class="kt">C</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">C</span><span class="o">,</span> <span class="n">numberOfOutputSplit</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">scheduler</span><span class="k">:</span> <span class="kt">TaskScheduler</span><span class="o">)</span><span class="k">:</span>
+  <span class="kt">List</span><span class="o">[(</span><span class="kt">K</span>, <span class="kt">C</span><span class="o">)]</span> <span class="k">=</span> <span class="o">{</span></code></pre></div>
+
+<p>The rows variable simulating a in memory collection with multiple rows. I am using an in memory collection to keep things simple. You can replace it with RDD or a hadoop file data.</p>
+
+<h3 id="step-2--number-each-split">Step 2 : Number each split</h3>
+
+<div class="highlight"><pre><code class="scala"><span class="k">val</span> <span class="n">numberedList</span> <span class="k">=</span> <span class="n">rows</span><span class="o">.</span><span class="n">zipWithIndex</span></code></pre></div>
+
+<p>we number each split with index so that we can use it to identify it when we shuffle.</p>
+
+<h3 id="step-3-create-local-combiner-tasks">Step 3: Create local combiner tasks</h3>
+<p>For each split, we create a forEachTask </p>
+
+<div class="highlight"><pre><code class="scala"><span class="k">val</span> <span class="n">tasks</span> <span class="k">=</span> <span class="n">numberedList</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">value</span> <span class="k">=&gt;</span> <span class="n">forEachTask</span><span class="o">(</span><span class="n">value</span><span class="o">))</span></code></pre></div>
+
+<p>Implementation of <em>forEach</em> task.</p>
+
+<div class="highlight"><pre><code class="scala"><span class="k">def</span> <span class="n">forEachTask</span><span class="o">(</span><span class="n">pair</span><span class="k">:</span> <span class="o">(</span><span class="kt">List</span><span class="o">[(</span><span class="kt">K</span>, <span class="kt">V</span><span class="o">)],</span> <span class="nc">Int</span><span class="o">))</span> <span class="k">=</span> <span class="o">{</span>
+   <span class="k">new</span> <span class="nc">FunctionTask</span><span class="o">[(</span><span class="kt">Int</span>, <span class="kt">String</span><span class="o">)](()</span> <span class="k">=&gt;</span> <span class="o">{</span></code></pre></div>
+
+<p>forEachTask returns a function task which does following.</p>
+
+<div class="highlight"><pre><code class="scala"><span class="k">val</span> <span class="n">tempDir</span> <span class="k">=</span> <span class="nc">Utils</span><span class="o">.</span><span class="n">createTempDir</span><span class="o">(</span><span class="s">&quot;/tmp/shuffleLocal&quot;</span><span class="o">).</span><span class="n">getAbsoluteFile</span>
+<span class="n">println</span><span class="o">(</span><span class="n">s</span><span class="s">&quot;using tempDir $tempDir&quot;</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="n">index</span> <span class="k">=</span> <span class="n">pair</span><span class="o">.</span><span class="n">_2</span>
+<span class="k">val</span> <span class="n">iterator</span> <span class="k">=</span> <span class="n">pair</span><span class="o">.</span><span class="n">_1</span></code></pre></div>
+
+<p>We create a temporary directory for each split, where we are going to write the output files for that split. </p>
+
+<div class="highlight"><pre><code class="scala"><span class="k">val</span> <span class="n">buckets</span> <span class="k">=</span> <span class="nc">Array</span><span class="o">.</span><span class="n">tabulate</span><span class="o">(</span><span class="n">numberOfOutputSplit</span><span class="o">)(</span><span class="k">_</span> <span class="k">=&gt;</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">C</span><span class="o">])</span>
+<span class="k">for</span> <span class="o">((</span><span class="n">k</span><span class="o">,</span> <span class="n">v</span><span class="o">)</span> <span class="k">&lt;-</span> <span class="n">iterator</span><span class="o">)</span> <span class="o">{</span>
+<span class="k">var</span> <span class="n">bucketId</span> <span class="k">=</span> <span class="n">k</span><span class="o">.</span><span class="n">hashCode</span><span class="o">()</span> <span class="o">%</span> <span class="n">numberOfOutputSplit</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">bucketId</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">bucketId</span> <span class="o">+=</span> <span class="n">numberOfOutputSplit</span>
+<span class="o">}</span>          
+<span class="k">val</span> <span class="n">bucket</span> <span class="k">=</span> <span class="n">buckets</span><span class="o">(</span><span class="n">bucketId</span><span class="o">)</span></code></pre></div>
+
+<p>We create buckets(partitions) using hashParitioner.The for each value, we determine which bucket it belongs to using <em>hashCode</em> method. We handle negative hash code case too.</p>
+
+<div class="highlight"><pre><code class="scala"><span class="n">bucket</span><span class="o">(</span><span class="n">k</span><span class="o">)</span> <span class="k">=</span> <span class="n">bucket</span><span class="o">.</span><span class="n">get</span><span class="o">(</span><span class="n">k</span><span class="o">)</span> <span class="k">match</span> <span class="o">{</span>
+   <span class="k">case</span> <span class="nc">Some</span><span class="o">(</span><span class="n">c</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">mergeValue</span><span class="o">(</span><span class="n">c</span><span class="o">,</span> <span class="n">v</span><span class="o">)</span>
+   <span class="k">case</span> <span class="nc">None</span> <span class="k">=&gt;</span> <span class="n">createCombiner</span><span class="o">(</span><span class="n">v</span><span class="o">)</span>
+<span class="o">}</span></code></pre></div>
+
+<p>Once we have the bucket, then we use createCombiner or mergeValue to run combining for that pair.</p>
+
+<h3 id="step-4--writing-results-to-local-disk">Step 4 : Writing results to local disk</h3>
+
+<p>Once we have results for a given split, we are going to write them to the disk.</p>
+
+<div class="highlight"><pre><code class="scala"><span class="k">val</span> <span class="n">paths</span> <span class="k">=</span> <span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">numberOfOutputSplit</span><span class="o">).</span><span class="n">map</span> <span class="o">{</span>
+          <span class="n">i</span> <span class="k">=&gt;</span>
+            <span class="k">val</span> <span class="n">path</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="n">tempDir</span><span class="o">,</span> <span class="s">&quot;%d-%d&quot;</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="n">index</span><span class="o">,</span> <span class="n">i</span><span class="o">))</span>
+            <span class="k">val</span> <span class="n">out</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ObjectOutputStream</span><span class="o">(</span><span class="k">new</span> <span class="nc">FileOutputStream</span><span class="o">(</span><span class="n">path</span><span class="o">))</span>
+            <span class="n">buckets</span><span class="o">(</span><span class="n">i</span><span class="o">).</span><span class="n">foreach</span><span class="o">(</span><span class="n">pair</span> <span class="k">=&gt;</span> <span class="n">out</span><span class="o">.</span><span class="n">writeObject</span><span class="o">(</span><span class="n">pair</span><span class="o">))</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">close</span><span class="o">()</span>
+            <span class="n">path</span><span class="o">.</span><span class="n">getName</span>
+<span class="o">}</span></code></pre></div>
+
+<h3 id="step-5--serve-the-local-files-using-a-http-server">Step 5 : Serve the local files using a HTTP server</h3>
+
+<p>Once we write the files to disk, we start a http server which serves these output files to reduce tasks.</p>
+
+<div class="highlight"><pre><code class="scala"><span class="k">val</span> <span class="n">httpServer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">HttpServer</span><span class="o">(</span><span class="n">tempDir</span><span class="o">)</span>
+<span class="n">httpServer</span><span class="o">.</span><span class="n">start</span><span class="o">()</span>
+<span class="o">(</span><span class="n">index</span><span class="o">,</span> <span class="n">httpServer</span><span class="o">.</span><span class="n">uri</span><span class="o">)</span></code></pre></div>
+
+<h3 id="step-6-run-foreach-tasks">Step 6: Run forEach tasks</h3>
+
+<div class="highlight"><pre><code class="scala"><span class="k">val</span> <span class="n">mapping</span> <span class="k">=</span> <span class="n">scheduler</span><span class="o">.</span><span class="n">runTasks</span><span class="o">(</span><span class="n">tasks</span><span class="k">:</span> <span class="k">_</span><span class="kt">*</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">get</span><span class="o">)</span></code></pre></div>
+
+<h3 id="step-7--map-the-splits-to-uri">Step 7 : Map the splits to uri</h3>
+
+<p>After map side combiners are completed, we are going to create a hashmap which going to contain uri’s of http servers and the different splits they contain.</p>
+
+<div class="highlight"><pre><code class="scala"><span class="k">val</span> <span class="n">splitsByUri</span> <span class="k">=</span> <span class="k">new</span> <span class="n">mutable</span><span class="o">.</span><span class="nc">HashMap</span><span class="o">[</span><span class="kt">String</span>, <span class="kt">mutable.ArrayBuffer</span><span class="o">[</span><span class="kt">Int</span><span class="o">]]()</span>
+
+ <span class="k">for</span> <span class="o">((</span><span class="n">index</span><span class="o">,</span> <span class="n">uri</span><span class="o">)</span> <span class="k">&lt;-</span> <span class="n">mapping</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">splitsByUri</span><span class="o">.</span><span class="n">getOrElseUpdate</span><span class="o">(</span><span class="n">uri</span><span class="o">,</span> <span class="nc">ArrayBuffer</span><span class="o">[</span><span class="kt">Int</span><span class="o">]())</span> <span class="o">+=</span> <span class="n">index</span>
+ <span class="o">}</span></code></pre></div>
+
+<h3 id="step-8--generate-reduce-task-for-output-split">Step 8 : Generate reduce task for output split</h3>
+<p>We are going to create reduce tasks as specified by <em>numberOfOutputSplit</em>.</p>
+
+<div class="highlight"><pre><code class="scala"><span class="k">val</span> <span class="n">reduceTasks</span> <span class="k">=</span> <span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">numberOfOutputSplit</span><span class="o">).</span><span class="n">map</span><span class="o">(</span><span class="n">index</span> <span class="k">=&gt;</span> <span class="n">reduceTask</span><span class="o">(</span><span class="n">index</span><span class="o">,</span><span class="n">splitsByUri</span><span class="o">)).</span><span class="n">toList</span></code></pre></div>
+
+<h3 id="step-9-implementation-of-reduce-task">Step 9: Implementation of reduce task</h3>
+<p>The following is the implementation of reduce.</p>
+
+<div class="highlight"><pre><code class="scala"><span class="k">def</span> <span class="n">reduceTask</span><span class="o">(</span><span class="n">index</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">splitsByUri</span><span class="k">:</span> <span class="kt">mutable.HashMap</span><span class="o">[</span><span class="kt">String</span>, <span class="kt">ArrayBuffer</span><span class="o">[</span><span class="kt">Int</span><span class="o">]])</span> <span class="k">=</span> <span class="o">{</span>
+      <span class="k">new</span> <span class="nc">FunctionTask</span><span class="o">[</span><span class="kt">HashMap</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">C</span><span class="o">]](()</span> <span class="k">=&gt;</span> <span class="o">{</span>
+        <span class="k">val</span> <span class="n">combiners</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">[</span><span class="kt">K</span>, <span class="kt">C</span><span class="o">]</span>
+        <span class="k">for</span> <span class="o">((</span><span class="n">uri</span><span class="o">,</span> <span class="n">splits</span><span class="o">)</span> <span class="k">&lt;-</span> <span class="nc">Utils</span><span class="o">.</span><span class="n">shuffle</span><span class="o">(</span><span class="n">splitsByUri</span><span class="o">))</span> <span class="o">{</span>
+          <span class="k">for</span> <span class="o">(</span><span class="n">split</span> <span class="k">&lt;-</span> <span class="n">splits</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">val</span> <span class="n">url</span> <span class="k">=</span> <span class="s">&quot;%s/%d-%d&quot;</span><span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="n">uri</span><span class="o">,</span><span class="n">split</span><span class="o">,</span><span class="n">index</span><span class="o">)</span>
+            <span class="k">val</span> <span class="n">inputStream</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ObjectInputStream</span><span class="o">(</span><span class="k">new</span> <span class="nc">URL</span><span class="o">(</span><span class="n">url</span><span class="o">).</span><span class="n">openStream</span><span class="o">())</span>
+            <span class="k">try</span> <span class="o">{</span>
+              <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">val</span> <span class="o">(</span><span class="n">k</span><span class="o">,</span> <span class="n">c</span><span class="o">)</span> <span class="k">=</span> <span class="n">inputStream</span><span class="o">.</span><span class="n">readObject</span><span class="o">().</span><span class="n">asInstanceOf</span><span class="o">[(</span><span class="kt">K</span>, <span class="kt">C</span><span class="o">)]</span>
+                <span class="n">combiners</span><span class="o">(</span><span class="n">k</span><span class="o">)</span> <span class="k">=</span> <span class="n">combiners</span><span class="o">.</span><span class="n">get</span><span class="o">(</span><span class="n">k</span><span class="o">)</span> <span class="k">match</span> <span class="o">{</span>
+                  <span class="k">case</span> <span class="nc">Some</span><span class="o">(</span><span class="n">oldC</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">mergeCombiners</span><span class="o">(</span><span class="n">oldC</span><span class="o">,</span> <span class="n">c</span><span class="o">)</span>
+                  <span class="k">case</span> <span class="nc">None</span> <span class="k">=&gt;</span> <span class="n">c</span>
+                <span class="o">}</span>
+              <span class="o">}</span>
+            <span class="o">}</span> <span class="k">catch</span> <span class="o">{</span>
+              <span class="k">case</span> <span class="n">e</span><span class="k">:</span> <span class="kt">EOFException</span> <span class="o">=&gt;</span> <span class="o">{}</span>
+            <span class="o">}</span>
+          <span class="o">}}</span>
+          <span class="n">combiners</span>
+        <span class="o">})</span>
+    <span class="o">}</span></code></pre></div>
+
+<p>reduce task just downloads the uri’s specific to the bucket and runs <em>mergeCombiners</em> to get the final reduce value for that bucket.</p>
+
+<h3 id="step-10--run-the-reduce-tasks-and-return-result">Step 10 : Run the reduce tasks and return result</h3>
+
+<div class="highlight"><pre><code class="scala"><span class="k">val</span> <span class="n">reducedValues</span> <span class="k">=</span> <span class="n">scheduler</span><span class="o">.</span><span class="n">runTasks</span><span class="o">(</span><span class="n">reduceTasks</span><span class="k">:_</span><span class="kt">*</span><span class="o">)</span>
+ <span class="n">reducedValues</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">get</span><span class="o">).</span><span class="n">flatten</span><span class="o">.</span><span class="n">toList</span></code></pre></div>
+
+<p>runs the above created reduce tasks and returns the result as a list.</p>
+
+<h2 id="using-the-shuffle-to-implement-hadoop-word-count">Using the shuffle to implement hadoop word count</h2>
+
+<p>The following code uses our shuffle to implement word count. Here we do the mapping inline , only implement combiner and reducer functionality.</p>
+
+<div class="highlight"><pre><code class="scala"><span class="k">val</span> <span class="n">paragraph</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="s">&quot;hello how are you how are you i am fine let&#39;s go till end how are you&quot;</span><span class="o">,</span><span class="s">&quot;hello how are you u asked me&quot;</span><span class="o">)</span>
+
+    
+<span class="k">val</span> <span class="n">twoSplits</span> <span class="k">=</span> <span class="n">paragraph</span><span class="o">.</span><span class="n">flatMap</span><span class="o">(</span><span class="n">value</span> <span class="k">=&gt;</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="o">(</span><span class="s">&quot; &quot;</span><span class="o">)).</span><span class="n">map</span><span class="o">(</span><span class="n">value</span> <span class="k">=&gt;</span> <span class="o">(</span><span class="n">value</span><span class="o">,</span> <span class="mi">1</span><span class="o">)).</span><span class="n">splitAt</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">finalList</span> <span class="k">=</span> <span class="nc">List</span><span class="o">[</span><span class="kt">List</span><span class="o">[(</span><span class="kt">String</span>, <span class="kt">Int</span><span class="o">)]](</span><span class="n">twoSplits</span><span class="o">.</span><span class="n">_1</span><span class="o">,</span> <span class="n">twoSplits</span><span class="o">.</span><span class="n">_2</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="n">createCombiner</span> <span class="k">=</span> <span class="o">(</span><span class="n">value</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">value</span>
+<span class="k">val</span> <span class="n">mergeValue</span> <span class="k">=</span> <span class="o">(</span><span class="n">combiner</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">value</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">combiner</span> <span class="o">+</span> <span class="n">value</span>
+<span class="k">val</span> <span class="n">mergeCombiner</span> <span class="k">=</span> <span class="o">(</span><span class="n">c1</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">c2</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">c1</span> <span class="o">+</span> <span class="n">c2</span>
+
+<span class="k">val</span> <span class="n">result</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">LocalShuffle</span><span class="o">().</span><span class="n">compute</span><span class="o">(</span><span class="n">finalList</span><span class="o">,</span><span class="n">createCombiner</span><span class="o">,</span>
+<span class="n">mergeValue</span><span class="o">,</span><span class="n">mergeCombiner</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="n">scheduler</span><span class="o">)</span>
+<span class="n">println</span><span class="o">(</span><span class="s">&quot;result is&quot;</span> <span class="o">+</span><span class="n">result</span><span class="o">)</span></code></pre></div>
+
+<h2 id="building--and-running">Building  and Running</h2>
+
+<p>Download source code from <a href="https://github.com/phatak-dev/blog/tree/master/code/MesosShuffle">github</a>.</p>
+
+<p>Refer to <a href="/distributing-third-party-libraries-in-mesos/#running">this</a> post for building and running instructions.</p>
+
+
+</article>
+</div>
+
+<div class="related">
+  <h2>Related posts</h2>
+  <ul class="list-unstyled">
+    
+             
+    
+    <li style="margin-top:5%;">    
+     <span class="post-date">07 Feb 2015</span>
+     &raquo; <a style="color:#25aae1;" href="http://phatak_dev.bitbucket.org//blog/2015/02/07/pipe-in-spark/">Pipe in Spark</a>    
+   </li>           
+         
+
+            
+          
+
+            
+    
+    <li style="margin-top:5%;">    
+     <span class="post-date">15 Dec 2014</span>
+     &raquo; <a style="color:#25aae1;" href="http://phatak_dev.bitbucket.org//blog/2014/12/15/distributing-third-party-libraries-in-mesos/">Distributing third party libraries in Mesos</a>    
+   </li>           
+         
+
+   
+   
+ </ul> 
+ <!--     
+    <div id="disqus_thread" style="padding-top:4%;"></div>
+     <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'personalblogmadhukar'; // required: replace example with your forum shortname
+        var disqus_developer = 1;
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    -->
+</div>
+</div>
+
+<div class="col-md-1"></div>
+<div class="col-md-3" style="margin-top:3%;">
+    <h2> Archives </h2>
+  <h4 style="margin-top:10%;">This year's posts</h4>
+  
+    
+      <ul class="list-unstyled">
+    
+      <li style="margin-top:5%;"><a href="/blog/2015/02/07/pipe-in-spark/" style="color:#25aae1;">Pipe in Spark</a></li>
+  
+    
+      
+      
+      
+        </ul>
+        <h3>2014</h3>
+        <ul class="list-unstyled">
+      
+    
+      <li style="margin-top:5%;"><a href="/blog/2014/12/15/implementing-shuffle-in-mesos/" style="color:#25aae1;">Implementing shuffle in Mesos</a></li>
+  
+    
+      
+      
+      
+    
+      <li style="margin-top:5%;"><a href="/blog/2014/12/15/distributing-third-party-libraries-in-mesos/" style="color:#25aae1;">Distributing third party libraries in Mesos</a></li>
+  
+    
+      
+      
+      
+    
+      <li style="margin-top:5%;"><a href="/blog/2014/12/03/sizeof-operator-java-scala/" style="color:#25aae1;">sizeof operator for Java&#47;Scala</a></li>
+  
+    
+      
+      
+      
+    
+      <li style="margin-top:5%;"><a href="/blog/2014/11/18/kryo-disk-serialization-in-spark/" style="color:#25aae1;">Kryo disk serialization in Spark</a></li>
+  
+  </ul>
+
+
+</div>
+
+</div>
+
+  <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <span class="copyright">Copyright &copy; Data Mantra 2014</span>
+                </div>
+                <div class="col-md-3">
+                    <ul class="list-inline social-buttons">
+                        
+                        <li><a href="http://twitter.com/datamantra"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        
+                        <li><a href="http://github.com/datamantra"><i class="fa fa-github"></i></a>
+                        </li>
+                        
+                    </ul>
+                </div>
+                <div class="col-md-5">
+                    <span class="copyright">Hadoop and Spark are trademarks of Apache foundation.</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+ <!-- jQuery Version 1.11.0 -->
+    <script src="http://phatak_dev.bitbucket.org//js/jquery-1.11.0.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="http://phatak_dev.bitbucket.org//js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="http://phatak_dev.bitbucket.org//js/jquery.easing.min.js"></script>
+    <script src="http://phatak_dev.bitbucket.org//js/classie.js"></script>
+    <script src="http://phatak_dev.bitbucket.org//js/cbpAnimatedHeader.js"></script>    
+
+    <!-- Custom Theme JavaScript -->
+    <script src="http://phatak_dev.bitbucket.org//js/agency.js"></script>
+
+</body>
+
