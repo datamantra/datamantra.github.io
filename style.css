@@ -897,7 +897,7 @@ footer {
   padding-top: 5%;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .section-icon {
     display: none;
   }
@@ -1043,14 +1043,18 @@ footer {
   margin-left: 30%;	
 }
 
-@media (max-width: 762px){
+@media (max-width: 768px){
   .pagination {
   	margin-left: 0;
   }
 }
 
-.pagination a.btn-primary {
+.pagination button.btn-primary {
   background-color : #42DF4F;
+
+}
+.pagination button.btn-primary>a {
+  color: #fff;
 }
 
 /* Syntax highlighting styles */
