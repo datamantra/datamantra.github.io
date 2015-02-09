@@ -227,7 +227,9 @@ fieldset[disabled] .btn-xl.active {
     background-color: #42DF4F;
 }
 
-@media(min-width:768px) {
+
+
+@media(min-width:992px) {
     .navbar-default {
         padding: 25px 0;
         border: 0;
@@ -787,6 +789,7 @@ img::-moz-selection {
 body {
     webkit-tap-highlight-color: #8FCB94;
 }
+
 /*
  Custom css. Used to add on to agency.css
  */
