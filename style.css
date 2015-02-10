@@ -821,7 +821,7 @@ body {
 /* Jumbtron on each page */
 
 .jumbotron.head_jumbtron {
-  padding-top: 1%;
+  padding-top: 1px;
   min-height: 300px;
   background-color: #333;
 }
