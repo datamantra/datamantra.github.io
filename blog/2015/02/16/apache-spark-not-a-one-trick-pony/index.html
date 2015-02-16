@@ -5,11 +5,11 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>DataMantra Blog</title>
+    <title>Apache Spark is not a one-trick pony : Going beyond in-memory processing</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Datamantra : Spark, Hadoop training and consulting.  We provide Spark and Hadoop training in Bangalore.  We provide Spark and Hadoop consulting in bangalore."
 ">
-    <link rel="canonical" href="www.datamantra.iohttp://datamantra.io/blog/">
+    <link rel="canonical" href="www.datamantra.iohttp://datamantra.io/blog/2015/02/16/apache-spark-not-a-one-trick-pony/">
 
 
     <!-- Custom CSS & Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
@@ -127,61 +127,103 @@
 </div>    
 
 <div class="container content-row ">
-  <!-- Index page for blog -->
-<div class="home col-md-8" style="padding-bottom:5%;">	
-	<ul class="posts list-unstyled">
-		
-		<li style="padding-bottom:5%;">           
-			<span class="post-date">Feb 16, 2015</span>             
-			<div>
-				<a class="post-link" href="http://datamantra.io/blog/2015/02/16/apache-spark-not-a-one-trick-pony/">Apache Spark is not a one-trick pony : Going beyond in-memory processing
-				</a> 
-				<p> <p>At DataMantra, whenever we suggest Apache Spark to our customers, they respond <em>&#8220;it just in-memory thing right?&#8221;</em>. There is a misconception about Spark,  that it&#8217;s just about in-memory computation. Even creators of spark acknowledge it. In one of their recent <a href="https://databricks.com/blog/2014/10/10/spark-petabyte-sort.html">blog post</a> they say</p>
+  <div class="post col-md-8">
+ <header class="post-header">
+  <h1>Apache Spark is not a one-trick pony : Going beyond in-memory processing</h1>
+  <p class="meta">Posted Feb 16, 2015  by Madhukara Phatak </p>  
+</header> 
 
- </p>
-			</div>                                  
-		</li>        
-		
-		<li style="padding-bottom:5%;">           
-			<span class="post-date">Feb 7, 2015</span>             
-			<div>
-				<a class="post-link" href="http://datamantra.io/blog/2015/02/07/pipe-in-spark/">Pipe in Spark
-				</a> 
-				<p> <p>Pipe operator in Spark, allows developer to process RDD data using external applications. Sometimes in data analysis, we need to use an external library which may not be written using Java/Scala. Ex: Fortran math libraries. In that case, spark&#8217;s pipe operator allows us to send the RDD data to the external application.</p>
+<div>
+<article class="post-content">
+  <p>At DataMantra, whenever we suggest Apache Spark to our customers, they respond <em>“it just in-memory thing right?”</em>. There is a misconception about Spark,  that it’s just about in-memory computation. Even creators of spark acknowledge it. In one of their recent <a href="https://databricks.com/blog/2014/10/10/spark-petabyte-sort.html">blog post</a> they say</p>
 
- </p>
-			</div>                                  
-		</li>        
-		
-		<li style="padding-bottom:5%;">           
-			<span class="post-date">Nov 18, 2014</span>             
-			<div>
-				<a class="post-link" href="http://datamantra.io/blog/2014/11/18/kryo-disk-serialization-in-spark/">Kryo disk serialization in Spark
-				</a> 
-				<p> <p>In apache spark, it&#8217;s <a href="http://spark.apache.org/docs/latest/tuning.html#data-serialization">advised</a> to use the kryo serialization over java serialization for big data applications. Kryo has less memory footprint compared to java serialization which becomes very important when you are shuffling and caching large amount of data.</p>
+<blockquote>
+  <p>This has always been one of the most common misconceptions about Spark, especially for people new to the community. Spark is well known for its in-memory performance, but from its inception Spark was designed to be a general execution engine that works both in-memory and on-disk. Almost all Spark operators perform external operations when data does not fit in memory. More generally, Spark’s operators are a strict superset of MapReduce.</p>
+</blockquote>
 
- </p>
-			</div>                                  
-		</li>        
-		
-	</ul>
+<p>Though in-memory is an important feature, it’s not only thing that makes Spark special. So in this blog post, I am going to discuss about few of the other important features that make Spark stand out.</p>
 
-<!-- Pagination -->
+<h2 id="one-platform-for-all-big-data-loads">1. One platform for all Big data loads</h2>
 
-<div class="pagination">
-	
-	<!-- Disabled button -->
-	<a href="http://datamantra.io/blog/" class="btn btn-primary previous disabled"><i class="fa fa-angle-left"></i> New Posts</a>
-	
-	
-	<!-- Next button -->
-	
-	<a href="http://datamantra.io/blog/page2" class="next "><button class="btn btn-primary">Old posts <i class="fa fa-angle-right" style="font-size: 2 em;"></i></button></a>
-	
+<p>Big data analysis has different data loads. Different use cases need different kind of analysis. Most of the big data analysis need both batch processing and real time capabilities. Not only that, they have structured, unstructured, graph analysis and other advanced processing needs too. So a big data processing framework has to cater to all of this needs.</p>
+
+<p>Hadoop M/R, current leading big data processing framework,  is only optimized for batch processing. So in hadoop, you need to go to other frameworks like Storm for real time and Apache Giraph for graph processing capabilities. Having multiple different frameworks is a pain for development and maintenance. Though introduction of YARN has solved few issues, YARN is too low level to be used in applications.</p>
+
+<p>In case of Spark, it was designed to cater to multiple data loads from day one. Batch processing and real time capabilities are built in to the core of Spark. Not only that many advanced graph and machine learning libraries are built in so that it can cater to wide variety of data analysis needs.</p>
+
+<h2 id="one-abstraction-to-rule-them-all">2. One abstraction to rule them all</h2>
+
+<p>In Spark, all APIs and libraries talk same abstraction called RDD. RDD stands for Resilient Distributed Dataset. It’s just a big collection of immutable data which is sitting in some storage. But what’s the advantage if all libraries talk in RDD?</p>
+
+<p>The advantage is that you can mix and match different kind of processing in same application. You can take a stream of data from spark real time system and can run sql queries using SparkSQL. Then take the output of SparkSQL and feed it to machine learning algorithm using MLLib. All of this is done without ever have to convert or store intermediate result. This is very powerful to build complex data flow systems.</p>
+
+<h2 id="runs-everywhere">3. Runs everywhere</h2>
+
+<p>Spark runs everywhere. It is designed to run on different platforms and different distributed systems. You can run Spark on Hadoop 1.0, Hadoop 2.0, Apache Mesos or stand alone spark cluster. This flexibility of deployment is very attractive to customers, as it allows them to harness power of spark using their existing infrastructure investments.</p>
+
+<h2 id="small-and-simple">4. Small and Simple</h2>
+<p>The original release of Spark contained only 1600 lines of Scala code. It was designed to be extremely modular. So today you can add or remove capabilities to your spark application simply by changing your build file. Also having a small code base makes extend the framework easy.</p>
+
+<p>Spark API thrives for simplicity. If you ever seen a spark word count vs Map/Reduce word count you will understand how simple API is. There is a lot of thought gone in to the API to make it more approachable and consistent. Contrast to that Java API of Map/Reduce is a mess. There is too much verbosity.</p>
+
+<h2 id="prospering-ecosystem">5. Prospering Ecosystem</h2>
+<p>In Hadoop, ecosystem was an after thought. The ecosystem projects like Hive and Pig dint have access to Map/Reduce abstractions. All they can do was generate Map/Reduce programs on the fly and run it on cluster. This severely effected their performance.</p>
+
+<p>Where as in Spark, there was a plan for ecosystem from day one. The ecosystem libraries Pregel and MLLib were developed side by side with core spark. So in Spark, all libraries have access to same level of abstraction as main API. This makes them first class citizen on the platform.</p>
+
+<h2 id="multi-language-api">6. Multi language API</h2>
+
+<p>Spark officially supports Scala, Java and Python API’s. This makes it more attractable to many developers compared to java only M/R. Though M/R supported C++ and other API’s they are not up to date like Java API. So Spark is great option for developers with different backgrounds.</p>
+
+<p>Now you know spark is not just about in-memory processing. Let’s break this myth by sharing this article with everyone.</p>
+
+</article>
 </div>
 
+<div class="related">
+  <h3>Related posts</h3>
+  <ul class="list-unstyled">
+    
+             
+          
 
+            
+    
+    <li style="margin-top:5%;">    
+     <span class="post-date">07 Feb 2015</span>
+     &raquo; <a style="color:#25aae1;" href="http://datamantra.io/blog/2015/02/07/pipe-in-spark/">Pipe in Spark</a>    
+   </li>           
+         
+
+            
+    
+    <li style="margin-top:5%;">    
+     <span class="post-date">18 Nov 2014</span>
+     &raquo; <a style="color:#25aae1;" href="http://datamantra.io/blog/2014/11/18/kryo-disk-serialization-in-spark/">Kryo disk serialization in Spark</a>    
+   </li>           
+         
+
+   
+   
+ </ul> 
+       
+       <div id="disqus_thread" style="margin-top:5%; margin-bottom:5%;"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'datamantra'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>    
+    
 </div>
+</div>
+
 <div class="col-md-1"></div>
 <div class="col-md-3" style="margin-top:3%;">
     <h2> Archives </h2>
@@ -221,9 +263,6 @@
 
 
 </div>
-
-
-
 
 </div>
 
