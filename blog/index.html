@@ -132,22 +132,11 @@
 	<ul class="posts list-unstyled">
 		
 		<li style="padding-bottom:5%;">           
-			<span class="post-date">Feb 16, 2015</span>             
-			<div>
-				<a class="post-link" href="http://datamantra.io/blog/2015/02/16/apache-spark-not-a-one-trick-pony/">Apache Spark is not a one-trick pony : Going beyond in-memory processing
-				</a> 
-				<p> <p>At DataMantra, whenever we suggest Apache Spark to our customers, they respond <em>&#8220;it just in-memory thing right?&#8221;</em>. There is a misconception about Spark,  that it&#8217;s just about in-memory computation. Even creators of spark acknowledge it. In one of their recent <a href="https://databricks.com/blog/2014/10/10/spark-petabyte-sort.html">blog post</a> they say</p>
-
- </p>
-			</div>                                  
-		</li>        
-		
-		<li style="padding-bottom:5%;">           
 			<span class="post-date">Feb 7, 2015</span>             
 			<div>
-				<a class="post-link" href="http://datamantra.io/blog/2015/02/07/pipe-in-spark/">Pipe in Spark
+				<a class="post-link" href="http://datamantra.io/blog/spark/scala/2015/02/07/pipe-in-spark/">Pipe in Spark
 				</a> 
-				<p> <p>Pipe operator in Spark, allows developer to process RDD data using external applications. Sometimes in data analysis, we need to use an external library which may not be written using Java/Scala. Ex: Fortran math libraries. In that case, spark&#8217;s pipe operator allows us to send the RDD data to the external application.</p>
+				<p> <p>Pipe operator in Spark, allows developer to process RDD data using external applications. Sometimes in data analysis, we need to use an external library which may not be written using Java/Scala. Ex: Fortran math libraries. In that case, spark’s pipe operator allows us to send the RDD data to the external application.</p>
 
  </p>
 			</div>                                  
@@ -156,9 +145,21 @@
 		<li style="padding-bottom:5%;">           
 			<span class="post-date">Nov 18, 2014</span>             
 			<div>
-				<a class="post-link" href="http://datamantra.io/blog/2014/11/18/kryo-disk-serialization-in-spark/">Kryo disk serialization in Spark
+				<a class="post-link" href="http://datamantra.io/blog/spark/scala/2014/11/18/kryo-disk-serialization-in-spark/">Kryo disk serialization in Spark
 				</a> 
-				<p> <p>In apache spark, it&#8217;s <a href="http://spark.apache.org/docs/latest/tuning.html#data-serialization">advised</a> to use the kryo serialization over java serialization for big data applications. Kryo has less memory footprint compared to java serialization which becomes very important when you are shuffling and caching large amount of data.</p>
+				<p> <p>In apache spark, it’s <a href="http://spark.apache.org/docs/latest/tuning.html#data-serialization">advised</a> to use the kryo serialization over java serialization for big data applications. Kryo has less memory footprint compared to java serialization which becomes very important when you are shuffling and caching large amount of data.</p>
+
+ </p>
+			</div>                                  
+		</li>        
+		
+		<li style="padding-bottom:5%;">           
+			<span class="post-date">Sep 29, 2014</span>             
+			<div>
+				<a class="post-link" href="http://datamantra.io/blog/spark/2014/09/29/evaluating-spark-rdd-for-side-effects/">Evaluating Spark RDD's for side effects
+				</a> 
+				<p> <p>Accumulators in Spark are highly useful to do side effect based operations.
+For example, the following code calculates both sum and sum of squares as a side effect.</p>
 
  </p>
 			</div>                                  
@@ -167,18 +168,6 @@
 	</ul>
 
 <!-- Pagination -->
-
-<div class="pagination">
-	
-	<!-- Disabled button -->
-	<a href="http://datamantra.io/blog/" class="btn btn-primary previous disabled"><i class="fa fa-angle-left"></i> New Posts</a>
-	
-	
-	<!-- Next button -->
-	
-	<a href="http://datamantra.io/blog/page2" class="next "><button class="btn btn-primary">Old posts <i class="fa fa-angle-right" style="font-size: 2 em;"></i></button></a>
-	
-</div>
 
 
 </div>
@@ -190,14 +179,7 @@
     
       <ul class="list-unstyled">
     
-      <li style="margin-top:5%;"><a href="/blog/2015/02/16/apache-spark-not-a-one-trick-pony/" style="color:#25aae1;">Apache Spark is not a one-trick pony : Going beyond in-memory processing</a></li>
-  
-    
-      
-      
-      
-    
-      <li style="margin-top:5%;"><a href="/blog/2015/02/07/pipe-in-spark/" style="color:#25aae1;">Pipe in Spark</a></li>
+      <li style="margin-top:5%;"><a href="/blog/spark/scala/2015/02/07/pipe-in-spark/" style="color:#25aae1;">Pipe in Spark</a></li>
   
     
       
@@ -208,14 +190,14 @@
         <ul class="list-unstyled">
       
     
-      <li style="margin-top:5%;"><a href="/blog/2014/11/18/kryo-disk-serialization-in-spark/" style="color:#25aae1;">Kryo disk serialization in Spark</a></li>
+      <li style="margin-top:5%;"><a href="/blog/spark/scala/2014/11/18/kryo-disk-serialization-in-spark/" style="color:#25aae1;">Kryo disk serialization in Spark</a></li>
   
     
       
       
       
     
-      <li style="margin-top:5%;"><a href="/blog/2014/09/29/evaluating-spark-rdd-for-side-effects/" style="color:#25aae1;">Evaluating Spark RDD's for side effects</a></li>
+      <li style="margin-top:5%;"><a href="/blog/spark/2014/09/29/evaluating-spark-rdd-for-side-effects/" style="color:#25aae1;">Evaluating Spark RDD's for side effects</a></li>
   
   </ul>
 
