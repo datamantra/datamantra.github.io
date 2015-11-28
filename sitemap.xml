@@ -1,36 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://datamantra.io/blog/spark/scala/2015/02/07/pipe-in-spark/</loc>
+    <loc>/blog/spark/scala/2015/02/07/pipe-in-spark/</loc>
     <lastmod>2015-02-07T00:00:00+05:30</lastmod>
   </url>
   <url>
-    <loc>http://datamantra.io/blog/spark/scala/2014/11/18/kryo-disk-serialization-in-spark/</loc>
+    <loc>/blog/spark/scala/2014/11/18/kryo-disk-serialization-in-spark/</loc>
     <lastmod>2014-11-18T00:00:00+05:30</lastmod>
   </url>
   <url>
-    <loc>http://datamantra.io/blog/spark/2014/09/29/evaluating-spark-rdd-for-side-effects/</loc>
+    <loc>/blog/spark/2014/09/29/evaluating-spark-rdd-for-side-effects/</loc>
     <lastmod>2014-09-29T00:00:00+05:30</lastmod>
   </url>
   <url>
-    <loc>http://datamantra.io/company/</loc>
+    <loc>/company/</loc>
   </url>
   <url>
-    <loc>http://datamantra.io/consulting/</loc>
+    <loc>/consulting/</loc>
   </url>
   <url>
-    <loc>http://datamantra.io/training/hadoop-developer-training/</loc>
+    <loc>/training/hadoop-developer-training/</loc>
   </url>
   <url>
-    <loc>http://datamantra.io/blog/</loc>
+    <loc>/blog/</loc>
   </url>
   <url>
-    <loc>http://datamantra.io/</loc>
+    <loc>/training/</loc>
   </url>
   <url>
-    <loc>http://datamantra.io/training/</loc>
+    <loc>/</loc>
   </url>
   <url>
-    <loc>http://datamantra.io/training/spark-developer-training/</loc>
+    <loc>/training/spark-developer-training/</loc>
+  </url>
+  <url>
+    <loc>/team/</loc>
   </url>
 </urlset>
